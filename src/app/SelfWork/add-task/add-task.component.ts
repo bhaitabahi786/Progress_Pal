@@ -1,7 +1,8 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../myService/supabase.service';
+import { TaskPageComponent } from '../task-page/task-page.component';
 
 @Component({
   selector: 'app-add-task',
@@ -24,7 +25,6 @@ export class AddTaskComponent {
   isOtherGroup: boolean = false;
 
   constructor(private supabaseService: SupabaseService) {  }
-
 
   otherSelected(event : any){
     console.log("ebvent : ",event.target.value);
@@ -61,7 +61,8 @@ export class AddTaskComponent {
     this.supabaseService.fetchDataS();  // this is not working 
 
     if(this.supabaseService.isTaskAdded){
-      console.log("task added sssss")
+      console.log("task added sssss");
+  
     }
 
     }

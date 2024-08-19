@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+import { CommonModule, JsonPipe } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { AddTaskComponent } from "../add-task/add-task.component";
 import { SupabaseService } from '../myService/supabase.service';
 
 @Component({
   selector: 'app-task-page',
   standalone: true,
-  imports: [CommonModule, FormsModule, AddTaskComponent],
+  imports: [CommonModule, FormsModule, JsonPipe],
   templateUrl: './task-page.component.html',
   styleUrl: './task-page.component.css'
 })
@@ -15,12 +14,13 @@ export class TaskPageComponent implements OnInit {
 
   TaskList: any[] = [];
   groupedTasks: { [date: string]: any[] } = {};
-  addTaskClick: boolean = true;
+  addTaskClick: boolean = false;
   
   constructor(private supabaseService: SupabaseService) {}
 
   ngOnInit(): void {
     this.fetchData();
+  
   }
 
   async fetchData() {
@@ -93,12 +93,79 @@ export class TaskPageComponent implements OnInit {
 
   }
 
-  addTaskClicked(){
-    console.log("addTaskClicked ",this.addTaskClick);
-    this.addTaskClick = true;
-    this.fetchData();
+  // retCheck(){
+  //   if(this.supabaseService.isTaskAdded){
+  //     this.fetchData();
+
+  //   }
+  // }
+
+  // addTaskClicked() {
+
+  //   this.closeModel = "open"
+  //   this.addTaskClick = true
+
+  // }
+  
+  //------------------ ADD task content ----------------------------//
+
+  task: any = {
+    date: '',
+    name: '',
+    description: '',
+    priority: 'low',
+    group: 'learning',
+    completed: false,
+    otherGroup: ''
+  };
+  isOtherGroup: boolean = false;
+
+  // closeModel: string = "open"
+  
+
+  otherSelected(event : any){
+    console.log("ebvent : ",event.target.value);
+
+    if (event.target.value === "others"){
+      this.isOtherGroup = true
+    }else {
+      this.isOtherGroup = false
+    }
+
   }
 
-  
+  async addTask() {
+
+    // console.log("add task list : ",this.task);
+    if(this.isOtherGroup){
+      this.task.group = this.task.otherGroup;
+    }
+
+    try{
+    const data = await this.supabaseService.addTaskS(this.task);
+    console.log('Task added successfully: Addtask page ', data);
+
+    this.task = {
+      date: '',
+      name: '',
+      description: '',
+      priority: 'low',
+      group: 'learning',
+      completed: false,
+      otherGroup: ''
+    };
+    this.isOtherGroup = false;
+
+    if(this.supabaseService.isTaskAdded){
+      console.log("task added sssss",this.supabaseService.isTaskAdded);
+      this.fetchData();
+      // this.closeModel = "modal"
+    }
+
+    }
+    catch(error) {
+      console.error('Error adding task:', error);
+    }
+  }
 
 }
