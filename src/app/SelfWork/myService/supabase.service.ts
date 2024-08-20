@@ -15,6 +15,7 @@ export class SupabaseService {
   }
 
   isTaskAdded: boolean = false;
+  isTaskDeleted: boolean = false;
 
   async fetchDataS() {
     try{
@@ -59,6 +60,35 @@ export class SupabaseService {
     if(taskData.status==201){
       this.isTaskAdded = true;
     }
+    if(taskData.status==204){
+      this.isTaskDeleted = true;
+    }
+  }
+
+  //  Update task function
+
+  async updateTaskS(upData: any){
+    console.log("update data: ",upData)
+    try{
+
+      const data = await this.supabase.from('tasks').update([upData]).eq('id', upData.id);
+
+      console.log('Error updating task:', data);
+
+    }
+    catch(error){
+      console.error('Error updating task:', error);
+    }
+
+  }
+
+  // Delete function 
+
+  async deleteTaskS(delData: any){
+    const response = await this.supabase.from('tasks').delete().eq('id', delData.id);
+    console.log("task del: ",response);
+    this.succesRet(response);
+
   }
 
 }

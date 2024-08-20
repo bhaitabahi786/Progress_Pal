@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ViewChild } from '@angular/core';
+import { Component, EventEmitter, Output, ViewChild } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { SupabaseService } from '../myService/supabase.service';
 import { TaskPageComponent } from '../task-page/task-page.component';
@@ -24,6 +24,8 @@ export class AddTaskComponent {
   };
   isOtherGroup: boolean = false;
 
+  @Output() istaskAddClick = new EventEmitter<boolean>();
+
   constructor(private supabaseService: SupabaseService) {  }
 
   otherSelected(event : any){
@@ -46,7 +48,7 @@ export class AddTaskComponent {
 
     try{
     const data = await this.supabaseService.addTaskS(this.task);
-    console.log('Task added successfully:Addtask page ', data);
+    console.log('Task added successfully ', data);
 
     this.task = {
       date: '',
@@ -58,11 +60,10 @@ export class AddTaskComponent {
       otherGroup: ''
     };
     this.isOtherGroup = false;
-    this.supabaseService.fetchDataS();  // this is not working 
 
     if(this.supabaseService.isTaskAdded){
       console.log("task added sssss");
-  
+      this.istaskAddClick.emit(true)
     }
 
     }
