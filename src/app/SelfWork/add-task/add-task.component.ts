@@ -13,6 +13,8 @@ import { TaskPageComponent } from '../task-page/task-page.component';
 })
 export class AddTaskComponent {
 
+  constructor(private supabaseService: SupabaseService) {  }
+
   task: any = {
     date: '',
     name: '',
@@ -20,16 +22,17 @@ export class AddTaskComponent {
     priority: 'low',
     group: 'learning',
     completed: false,
-    otherGroup: ''
+    otherGroup: '',
+    userID: ''
   };
   isOtherGroup: boolean = false;
 
   @Output() istaskAddClick = new EventEmitter<boolean>();
 
-  constructor(private supabaseService: SupabaseService) {  }
+ 
 
   otherSelected(event : any){
-    console.log("ebvent : ",event.target.value);
+    // console.log("ebvent : ",this.task.userID);
 
     if (event.target.value === "others"){
       this.isOtherGroup = true
@@ -41,6 +44,8 @@ export class AddTaskComponent {
 
   async addTask() {
 
+    
+    this.task.userID = this.supabaseService.IDValue;
     // console.log("add task list : ",this.task);
     if(this.isOtherGroup){
       this.task.group = this.task.otherGroup;
@@ -48,7 +53,7 @@ export class AddTaskComponent {
 
     try{
     const data = await this.supabaseService.addTaskS(this.task);
-    console.log('Task added successfully ', data);
+    // console.log('Task added successfully ', data);
 
     this.task = {
       date: '',

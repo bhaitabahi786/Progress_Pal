@@ -1,9 +1,12 @@
+<app-navbar [isLogged]="logCheck" ></app-navbar>
 <p>task-page works!</p>
-
+<!-- <div>{{ logCheck }}</div> -->
+<!-- @if(IDValue){ -->
 <!-- Button trigger modal -->
 <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
   Add Task
 </button>
+
 
 <!-- (click)="addTaskClicked()" -->
 
@@ -21,7 +24,7 @@
 <!-- To Display Task Start -->
 
 @for (date of dateTaskKeys; track $index) {
-
+  
 <div class="row mb-3">
   <div class="col d-flex align-items-center">
     <h5 class="mb-0">{{ date }}</h5>
@@ -90,3 +93,5 @@
 </div>
 
 <br /><br /><br /><br />
+
+<!-- } -->

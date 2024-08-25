@@ -1,13 +1,15 @@
 import { RouterModule, Routes } from '@angular/router';
 import { AddTaskComponent } from './SelfWork/add-task/add-task.component';
-import { TaskListComponent } from './task/task-list/task-list.component';
 import { NgModule } from '@angular/core';
 import { TaskPageComponent } from './SelfWork/task-page/task-page.component';
+import { SignUpComponent } from './SelfWork/Auth/sign-up/sign-up.component';
+import { LogOutComponent } from './SelfWork/Auth/log-out/log-out.component';
 
 export const routes: Routes = [
     // { path: '', component: TaskListComponent },
-    { path: 'add-task', component: AddTaskComponent },
-    { path: '', component: TaskPageComponent }
+    { path: '', component: TaskPageComponent },
+    { path: 'sign', component: SignUpComponent },
+    { path: 'logout', component: LogOutComponent }
 ];
 
 @NgModule({

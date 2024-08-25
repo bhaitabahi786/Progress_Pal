@@ -11,15 +11,27 @@ export class SupabaseService {
   
   constructor() {
     this.supabase = createClient(environment.supabaseUrl, environment.supabaseKey)
-    console.log("connection : ",this.supabase)
+    console.log("connection : ",this.supabase);
+    
   }
 
   isTaskAdded: boolean = false;
   isTaskDeleted: boolean = false;
 
+  isLoggedIn: boolean = false;
+  IDValue: string = '';
+  sessionValue: any = {};
+
   async fetchDataS() {
+
+    this.userCheck()
+    
     try{
-      const { data } = await this.supabase.from('tasks').select()
+
+      await this.supabase.from('tasks').select()
+      
+      // console.log("this.IDValue : ",this.IDValue);
+      const { data } = await this.supabase.from('tasks').select().eq('userID',this.IDValue)
       console.log("success : ",data)
       return data
     }
@@ -27,6 +39,7 @@ export class SupabaseService {
       console.log("error : ",error)
       return error
     }
+  
   
   }
 
@@ -89,6 +102,77 @@ export class SupabaseService {
     console.log("task del: ",response);
     this.succesRet(response);
 
+  }
+
+  // signup service 
+
+  signUperror: string = ''
+
+  async signUpS(signUpData: any){
+
+    const { data, error } = await this.supabase.auth.signUp(
+      {
+        email: signUpData.email,
+        password: signUpData.pswd,
+        options: {
+          data: {
+            userName: signUpData.userName
+          }
+        }
+      }
+    )
+    
+    console.log("signup : ",data);
+    console.log("signup error: ",error);
+
+    if(error){
+      this.signUperror = error.message;
+    }else {
+      this.signUperror = 'Registeration success Kindly Login.'
+    }
+
+  }
+
+  loginError: string = '';
+
+  async loginS(loginData: any){
+      
+    const { data, error } = await this.supabase.auth.signInWithPassword({
+      email: loginData.email,
+      password: loginData.pswd,
+    })
+
+    console.log("loginS : ",data);
+    console.log("loginS error: ",error);
+
+    if(error){
+      this.loginError = error.message;
+    }
+    
+  }
+
+  // user session check
+
+  async userCheck() {
+     this.supabase.auth.onAuthStateChange(
+      (event, session) => {
+        console.log(event, session);
+
+        if (event === 'SIGNED_IN' || event === 'INITIAL_SESSION') {
+          this.isLoggedIn = true;
+          this.IDValue = session?.user.id! ;
+          this.sessionValue = session;
+        }
+      }
+    );
+  }
+
+  // logout users
+
+  async logoutS(){
+    const { error } = await this.supabase.auth.signOut();
+    console.log("logout errro : ",error);
+    
   }
 
 }
