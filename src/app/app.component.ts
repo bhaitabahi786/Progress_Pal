@@ -12,6 +12,8 @@ import { NavbarComponent } from "./SelfWork/navbar/navbar.component";
 })
 export class AppComponent {
   title = 'Progress_Pal';
+  
+  logCheck: boolean = false;
 
 
 }

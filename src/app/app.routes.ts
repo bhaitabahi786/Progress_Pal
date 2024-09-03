@@ -7,8 +7,8 @@ import { LogOutComponent } from './SelfWork/Auth/log-out/log-out.component';
 
 export const routes: Routes = [
     // { path: '', component: TaskListComponent },
-    { path: '', component: TaskPageComponent },
-    { path: 'sign', component: SignUpComponent },
+    { path: 'task_list', component: TaskPageComponent },
+    { path: '', component: SignUpComponent },
     { path: 'logout', component: LogOutComponent }
 ];
 

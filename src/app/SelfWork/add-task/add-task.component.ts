@@ -23,7 +23,7 @@ export class AddTaskComponent {
     group: 'learning',
     completed: false,
     otherGroup: '',
-    userID: ''
+    user_id: ''
   };
   isOtherGroup: boolean = false;
 
@@ -45,7 +45,7 @@ export class AddTaskComponent {
   async addTask() {
 
     
-    this.task.userID = this.supabaseService.IDValue;
+    this.task.user_id = this.supabaseService.IDValue;
     // console.log("add task list : ",this.task);
     if(this.isOtherGroup){
       this.task.group = this.task.otherGroup;

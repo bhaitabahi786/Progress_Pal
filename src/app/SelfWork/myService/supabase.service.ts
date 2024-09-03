@@ -31,7 +31,7 @@ export class SupabaseService {
       await this.supabase.from('tasks').select()
       
       // console.log("this.IDValue : ",this.IDValue);
-      const { data } = await this.supabase.from('tasks').select().eq('userID',this.IDValue)
+      const { data } = await this.supabase.from('tasks').select().eq('user_id',this.IDValue)
       console.log("success : ",data)
       return data
     }
@@ -162,6 +162,8 @@ export class SupabaseService {
           this.isLoggedIn = true;
           this.IDValue = session?.user.id! ;
           this.sessionValue = session;
+        } else if (event === 'SIGNED_OUT') {
+          this.isLoggedIn = false;
         }
       }
     );

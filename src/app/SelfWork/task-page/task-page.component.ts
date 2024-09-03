@@ -27,6 +27,8 @@ export class TaskPageComponent implements OnInit {
 
   logCheck: boolean = false
 
+  dateArr: any[] = [];
+
   constructor(private supabaseService: SupabaseService) { }
 
   ngOnInit(): void {
@@ -68,8 +70,10 @@ export class TaskPageComponent implements OnInit {
   }
 
   get dateTaskKeys(): string[] {
-    // console.log("lists ddd: ",this.groupedTasks)
-    return Object.keys(this.groupedTasks);
+    // console.log("lists ddd: ",this.groupedTasks);
+    this.dateArr = Object.keys(this.groupedTasks);
+    // console.log("lists : ",this.dateArr.sort());
+    return this.dateArr.sort();
   }
 
   // logic for completing the task

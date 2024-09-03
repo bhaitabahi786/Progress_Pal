@@ -3,11 +3,12 @@ import { Component } from '@angular/core';
 import { FormsModule, Validators  } from '@angular/forms';
 import { SupabaseService } from '../../myService/supabase.service';
 import { Router } from '@angular/router';
+import { NavbarComponent } from "../../navbar/navbar.component";
 
 @Component({
   selector: 'app-sign-up',
   standalone: true,
-  imports: [CommonModule,FormsModule],
+  imports: [CommonModule, FormsModule, NavbarComponent],
   templateUrl: './sign-up.component.html',
   styleUrl: './sign-up.component.css'
 })
@@ -26,6 +27,8 @@ export class SignUpComponent {
 
   signUpErorr: string = '';
   classMessage: string = 'alert-warning';
+
+  logCheck: boolean = false
 
   constructor(private supabaseService: SupabaseService, private router: Router) {  }
 
@@ -59,7 +62,7 @@ export class SignUpComponent {
     if(this.supabaseService.loginError){
       this.signInErorr = this.supabaseService.loginError;
     }else {
-      this.router.navigateByUrl('');
+      this.router.navigateByUrl('/task_list');
     }
 
     

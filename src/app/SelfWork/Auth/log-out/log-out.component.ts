@@ -16,7 +16,7 @@ export class LogOutComponent implements OnInit {
   ngOnInit(): void {
     
     this.supabaseService.logoutS();
-    this.router.navigateByUrl('/sign');
+    this.router.navigateByUrl('');
   }
 
 }
